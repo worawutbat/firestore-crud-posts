@@ -2,6 +2,7 @@ import { auth } from "../utils/firebase";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCallback, useEffect } from "react";
+import Spinner from "../components/Spinner";
 
 const Dashboard = () => {
   const route = useRouter();
@@ -10,7 +11,12 @@ const Dashboard = () => {
   const onLogout = useCallback(() => auth.signOut(), []);
 
   const getUser = useCallback(async () => {
-    if (loading) return;
+    if (loading) {
+        <div className="flex items-center justify-center h-[80vh]">
+          <Spinner />
+        </div>;
+      }
+      
     if (!user) return await route.push("/auth/login");
   }, [loading, route, user]);
 

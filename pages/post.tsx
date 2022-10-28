@@ -3,24 +3,35 @@ import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCallback, useState } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import Spinner from "../components/Spinner";
 
 const Post = () => {
   const route = useRouter();
   const [user, loading] = useAuthState(auth);
   const [post, setPost] = useState({ description: "" });
 
-  const onSubmitPost = useCallback(async (e) => {
-    e.preventDefault()
-    const collectionRef = collection(db, "posts");
-    await addDoc(collectionRef, {
-      ...post,
-      timestamp: serverTimestamp(),
-      user: user.uid,
-      avatar: user.photoURL,
-      username: user.displayName
+  const onSubmitPost = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const collectionRef = collection(db, "posts");
+      await addDoc(collectionRef, {
+        ...post,
+        timestamp: serverTimestamp(),
+        user: user?.uid,
+        avatar: user?.photoURL,
+        username: user?.displayName,
+      });
+      setPost({ description: "" });
+      return route.push("/");
+    },
+    [post, route, user?.displayName, user?.photoURL, user?.uid]
+  );
 
-    });
-  }, [post, user.displayName, user.photoURL, user.uid]);
+  if (loading) {
+    <div className="flex items-center justify-center h-[80vh]">
+      <Spinner />
+    </div>;
+  }
 
   return (
     <div className="p-12 my-20 rounded-lg shadow-lg">

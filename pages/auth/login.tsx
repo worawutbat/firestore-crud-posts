@@ -4,6 +4,7 @@ import { auth } from "../../utils/firebase";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCallback, useEffect } from "react";
+import Spinner from "../../components/Spinner";
 
 const Login = () => {
   const route = useRouter();
@@ -26,6 +27,12 @@ const Login = () => {
       console.log("login");
     }
   }, [route, user]);
+
+  if (loading) {
+    <div className="flex items-center justify-center h-[80vh]">
+      <Spinner />
+    </div>;
+  }
   
   return (
     <div className="p-10 mt-32 text-gray-700 rounded-lg shadow-xl">
