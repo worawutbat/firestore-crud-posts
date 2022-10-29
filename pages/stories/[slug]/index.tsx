@@ -157,7 +157,6 @@ const Post = () => {
       </Head>
 
       <div className="my-4">
-        {postId}
         {post && (
           <Message {...post}>
             <div className="flex gap-2">

@@ -1,13 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import { IPropsPost } from "../pages/stories/edit";
 
 export interface IPropsComment {
   message?: string;
   avatar?: string;
   username?: string;
   timestamp?: { seconds: number; nanoseconds: number };
-
   children?: React.ReactNode;
 }
 
