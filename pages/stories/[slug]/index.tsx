@@ -1,4 +1,5 @@
 import {
+  arrayRemove,
   arrayUnion,
   doc,
   getDoc,
@@ -15,6 +16,9 @@ import { IPropsPost } from "../edit";
 import pick from "lodash/pick";
 import CommentCard from "../../../components/CommentCard";
 import Head from "next/head";
+import EmojiButton from "../../../components/EmojiButton";
+import EmojiButtonWithOpenModal from "../../../components/EmojiButtonWithOpenModal";
+import { EmojiClickData } from "emoji-picker-react/dist/types/exposedTypes";
 
 const Post = () => {
   const route = useRouter();
@@ -34,15 +38,17 @@ const Post = () => {
     const docSnap = await getDoc(docRef);
 
     const post = pick(docSnap?.data(), [
-      "id",
+      "uid",
       "description",
-      // "timestamp",
+      "timestamp",
       "user",
       "avatar",
       "username",
       "comments",
+      "emoji",
     ]);
 
+    console.log(post);
     if (!post) {
       // setIsLoading(false);
       setIsNotFound(true);
@@ -57,7 +63,7 @@ const Post = () => {
     if (!route.isReady) return setIsLoading(true);
     if (!postId) return setIsNotFound(true);
     getPostDetail();
-  }, [getPostDetail, postId, post, route.isReady]);
+  }, [getPostDetail, postId, route.isReady]);
 
   const onSubmitPost = useCallback(async () => {
     if (!auth.currentUser) return route.push("/auth/login");
@@ -80,7 +86,50 @@ const Post = () => {
     });
 
     setMessage("");
-  }, [message, postId, route]);
+    getPostDetail();
+  }, [getPostDetail, message, postId, route]);
+
+  const onSubmitEmoji = useCallback(
+    async (_postId: string, emojiDataUnified: string) => {
+      if (!auth.currentUser) return route.push("/auth/login");
+      if (!postId || !emojiDataUnified) {
+        toast.error("Dont't leave an empty message", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1500,
+        });
+        return;
+      }
+
+      const hasSelectedEmoji = post?.emoji?.[emojiDataUnified]?.includes(
+        auth.currentUser.uid
+      );
+
+      const docRef = doc(db, "posts", postId as string);
+
+      await updateDoc(docRef, {
+        [`emoji.${emojiDataUnified}`]: hasSelectedEmoji
+          ? arrayRemove(auth.currentUser.uid)
+          : arrayUnion(auth.currentUser.uid),
+      });
+
+      getPostDetail();
+    },
+    [getPostDetail, post?.emoji, postId, route]
+  );
+
+  const onUpdateExistEmoji = useCallback(
+    (postId: string, emojiName: string) => {
+      onSubmitEmoji(postId, emojiName);
+    },
+    [onSubmitEmoji]
+  );
+
+  const onSelectEmoji = useCallback(
+    (postId: string, emojiData: EmojiClickData, event?: MouseEvent) => {
+      onSubmitEmoji(postId, emojiData.unified);
+    },
+    [onSubmitEmoji]
+  );
 
   if (isLoading)
     return (
@@ -108,7 +157,30 @@ const Post = () => {
       </Head>
 
       <div className="my-4">
-        {post && <Message {...post} />}
+        {postId}
+        {post && (
+          <Message {...post}>
+            <div className="flex gap-2">
+              {post?.emoji &&
+                Object?.keys(post?.emoji)?.map((emojiName) => {
+                  const emojiCount = post?.emoji?.[emojiName]?.length;
+                  if (!emojiCount) return null;
+                  return (
+                    <EmojiButton
+                      key={emojiName}
+                      onClick={() => onUpdateExistEmoji(post.id, emojiName)}
+                      emojiName={emojiName}
+                      emojiCount={emojiCount}
+                    />
+                  );
+                })}
+              <EmojiButtonWithOpenModal
+                onSelectEmoji={onSelectEmoji}
+                postId={post.id}
+              />
+            </div>
+          </Message>
+        )}
         <div className="flex">
           <input
             type="text"

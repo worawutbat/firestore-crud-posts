@@ -18,7 +18,7 @@ import { IPropsComment } from "../../components/CommentCard";
 export interface IPropsPost {
   id?: string;
   description?: string;
-  timestamp?: any;
+  timestamp?: { seconds: number; nanoseconds: number };
   user?: string;
   avatar?: string;
   username?: string;
