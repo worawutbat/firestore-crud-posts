@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        marck: "Marck",
+        notoSansTh: "Noto Sans Thai', sans-serifScript",
       },
     },
   },
