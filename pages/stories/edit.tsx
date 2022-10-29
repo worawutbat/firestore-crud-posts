@@ -23,6 +23,7 @@ export interface IPropsPost {
   avatar?: string;
   username?: string;
   comments?: IPropsComment[];
+  emoji?: { Sting: { userId: string; username: string }[] };
 }
 
 const EditPost = () => {
