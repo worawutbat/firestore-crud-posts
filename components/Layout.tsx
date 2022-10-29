@@ -7,7 +7,7 @@ interface IPropsLayout {
 
 function Layout({ children }: IPropsLayout) {
   return (
-    <div className="mx-6 md:max-w-2xl md:mx-auto font-marck">
+    <div className="mx-6 md:max-w-2xl md:mx-auto font-notoSansTh">
       <Nav />
       <main>{children}</main>
     </div>

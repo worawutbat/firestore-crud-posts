@@ -29,9 +29,11 @@ const Login = () => {
   }, [route, user]);
 
   if (loading) {
-    <div className="flex items-center justify-center h-[80vh]">
-      <Spinner />
-    </div>;
+    return (
+      <div className="flex items-center justify-center h-[80vh]">
+        <Spinner />
+      </div>
+    );
   }
   
   return (
