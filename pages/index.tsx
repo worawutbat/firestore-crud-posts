@@ -29,7 +29,7 @@ export default function Home() {
 
   const getPosts = useCallback(() => {
     const collectionRef = collection(db, "posts");
-    const q = query(collectionRef, orderBy("timestamp"));
+    const q = query(collectionRef, orderBy("timestamp", 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setAllPosts(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       setIsLoading(false);
