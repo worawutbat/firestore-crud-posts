@@ -15,7 +15,6 @@ import Spinner from "../../components/Spinner";
 import Head from "next/head";
 import { IPropsComment } from "../../components/CommentCard";
 
-
 export interface IPropsPost {
   id?: string;
   description?: string;
@@ -23,7 +22,7 @@ export interface IPropsPost {
   user?: string;
   avatar?: string;
   username?: string;
-  comments?: IPropsComment[]
+  comments?: IPropsComment[];
 }
 
 const EditPost = () => {
@@ -110,19 +109,22 @@ const EditPost = () => {
   return (
     <>
       <Head>
-        <title>TW - Create/Edit Post</title>
-        <meta name="description" content="Create/Edit the Post" />
+        <title>Story - Draft</title>
+        <meta name="description" content="Create/Edit the story" />
       </Head>
-      
+
       <main>
         <div className="p-12 my-20 rounded-lg shadow-lg">
           <form onSubmit={onSubmitPost}>
             <h1 className="text-2xl font-bold">
-              {post?.hasOwnProperty("id") ? "Edit a post" : "Create a new post"}
+              {post?.hasOwnProperty("id")
+                ? "Edit your story"
+                : "Writing your story"}
             </h1>
             <div className="py-2">
-              <h3 className="py-2 text-lg font-medium">Description</h3>
+              {/* <h3 className="py-2 text-lg font-medium">Tell your story...</h3> */}
               <textarea
+                placeholder="your story..."
                 value={post.description}
                 onChange={(e) =>
                   setPost({ ...post, description: e.target.value })

@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { IPropsPost } from "../pages/post/edit";
+import { IPropsPost } from "../pages/stories/edit";
 
 interface IPropsMessage extends IPropsPost {
   children?: React.ReactNode;

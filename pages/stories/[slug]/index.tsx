@@ -99,12 +99,12 @@ const Post = () => {
   return (
     <>
       <Head>
-        <title>TW - {post ? post.description : "Post Detail"}</title>
+        <title>Story- {post ? post.description : "Writing"}</title>
         <meta
           name="description"
           content={post ? post.description : "Post Detail"}
         />
-        <link rel="canonical" href={`/posts/${postId}`} />
+        <link rel="canonical" href={`/stories/${postId}`} />
       </Head>
 
       <div className="my-4">
@@ -114,7 +114,7 @@ const Post = () => {
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Send a message"
+            placeholder="What do you think?"
             className="w-full p-2 text-sm text-white bg-gray-800"
           />
           <button

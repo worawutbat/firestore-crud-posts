@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { IPropsPost } from "../pages/post/edit";
+import { IPropsPost } from "../pages/stories/edit";
 
 export interface IPropsComment {
   message?: string;

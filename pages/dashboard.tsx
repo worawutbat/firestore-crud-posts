@@ -57,11 +57,11 @@ const Dashboard = () => {
   return (
     <>
       <Head>
-        <title>TW - DashBoard</title>
+        <title>Story - DashBoard</title>
         <meta name="description" content="My DashBoard" />
       </Head>
       <div className="space-y-4">
-        <h1 className="text-lg font-medium">Your posts</h1>
+        <h1 className="text-lg font-medium">Your story posts</h1>
         <div>
           {ownerPosts.map((post) => (
             <Message key={post.id} {...post}>
@@ -73,7 +73,7 @@ const Dashboard = () => {
                   <AiOutlineDelete className="text-xl" />
                   Delete
                 </button>
-                <Link href={{ pathname: "/post/edit", query: post }}>
+                <Link href={{ pathname: "/stories/edit", query: post }}>
                   <button className="flex items-center justify-center gap-2 py-2 text-sm text-teal-500">
                     <AiFillEdit className="text-xl" />
                     Edit
