@@ -20,7 +20,7 @@
     "react-toastify": "^9.0.8"
   },
   "devDependencies": {
-    "@types/node": "18.11.7",
+    "@types/node": "18.19.57",
     "@types/react": "18.0.24",
     "autoprefixer": "^10.4.12",
     "eslint": "8.26.0",
